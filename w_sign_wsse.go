@@ -12,6 +12,7 @@ func (cli *Client) SignWSSE(dataXML, id string) (signedXML string, err error) {
 const (
 	xmlnsSOAP = "http://schemas.xmlsoap.org/soap/envelope/"
 	xmlnsWSU  = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlnsTYP  = "http://bip.bee.kz/SyncChannel/v10/Types"
 
 	replaceKey = "replace-this"
 )
@@ -21,6 +22,7 @@ type soapEnvelope struct {
 	XMLName xml.Name `xml:"soap:Envelope"`
 	SOAP    string   `xml:"xmlns:soap,attr"`
 	WSU     string   `xml:"xmlns:wsu,attr"`
+	TYP     string   `xml:"xmlns:typ,attr"`
 	Body    soapBody `xml:"soap:Body"`
 }
 
@@ -36,6 +38,7 @@ func WrapWithWSSESoapEnvelope(dataXML, id string) (result string) {
 	envelope := soapEnvelope{
 		SOAP: xmlnsSOAP,
 		WSU:  xmlnsWSU,
+		TYP:  xmlnsTYP,
 		Body: soapBody{
 			ID:      id,
 			Content: replaceKey,
